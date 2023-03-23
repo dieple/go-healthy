@@ -3,24 +3,24 @@ package main
 import (
 	"fmt"
 	"log"
-	"os"
 	"net/http"
+	"os"
 
 	"github.com/gorilla/mux"
 )
 
 func main() {
-	port := os.Getenv("PORT");
+	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8000"
 	}
 
 	r := mux.NewRouter()
-	r.HandleFunc("/api/healthcheck", healthy)
+	r.HandleFunc("/api/health", healthy)
 
-	http.Handle("/api/healthcheck", r)
+	http.Handle("/api/health", r)
 	fmt.Println("Starting up on " + port)
-	log.Fatal(http.ListenAndServe(":" + port, nil))
+	log.Fatal(http.ListenAndServe(":"+port, nil))
 }
 
 func healthy(w http.ResponseWriter, req *http.Request) {
